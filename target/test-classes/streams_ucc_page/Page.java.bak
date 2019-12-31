@@ -1,0 +1,517 @@
+package streams_ucc_page;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+
+import output_results.Logs;
+import streams_ucc_OR.OR;
+
+public class Page extends OR{
+	
+    public static  String messageuuid;
+    public static String attachmentuuid;	
+	
+	
+	protected  static WebDriver driver;
+	  public Page(WebDriver driver)
+	  {
+		  this.driver=driver;
+		  PageFactory.initElements(driver, this);  
+	  }
+
+	  
+	  // ******** Login user method *********
+	  
+	  public void username_password_Login(String uname,String pass)
+	  {
+	    System.out.println(" username and password method in page ");
+	    WebDriverWait l=new WebDriverWait(driver, 6);
+	    try {
+	  	  l.until(ExpectedConditions.visibilityOf(username));
+	  	  l.until(ExpectedConditions.visibilityOf(password));
+	  	  l.until(ExpectedConditions.visibilityOf(loginbutton));
+	  	  System.out.println(uname+" and "+pass);
+	  	  this.username.clear();
+	  	  this.username.sendKeys(uname);
+	  	  this.password.clear();
+	  	  this.password.sendKeys(pass,Keys.ENTER);
+	  } catch (Exception e) 
+	    {
+	  	System.out.println("======= Login locators are not visible hence refresing in catch block ========");
+	  	for (int i = 1;; i++) 
+	  	{
+	  		driver.navigate().refresh();
+	  		System.out.println("\n\n\n");
+	  		System.out.println("Refreshing count is : "+i);
+	  		try {
+	  			if (username.isDisplayed() && password.isDisplayed() && loginbutton.isDisplayed()) 
+	  			{     System.out.println("------- Login locators are displayed after no.of browser refresh : "+i);
+	  				  l.until(ExpectedConditions.visibilityOf(username));
+	  				  l.until(ExpectedConditions.visibilityOf(password));
+	  				  l.until(ExpectedConditions.visibilityOf(loginbutton));
+	  				  System.out.println(uname+" and "+pass);
+	  				  this.username.clear();
+	  				  this.username.sendKeys(uname);
+	  				  this.password.clear();
+	  				  this.password.sendKeys(pass);
+	  				  break;
+	  			}
+	  			else
+	  			{
+	  				System.out.println("---------------------locators are not visible ----------------------------");
+	  			}
+	  			
+	  		} catch (Exception e2) 
+	  		{
+	  			System.out.println(e2);
+	  		}
+	  		
+	  	}
+	  }
+	    System.out.println(" page method ended ");
+	  }
+
+	  //-------- Login locators ended --------
+
+	  //--- Logout locators -----//
+	  public void logout() throws Exception
+	  {
+	  	WebDriverWait wait = new WebDriverWait(driver,10);
+	  	try {
+	  		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@id='streams_menu_icon_area']")));
+	  		wait.until(ExpectedConditions.visibilityOf(menubutton));
+	  		this.menubutton.click();
+	  		this.logoutbutton.click();
+	  		wait.until(ExpectedConditions.visibilityOf(loginusername));
+	  	} catch (Exception e) {
+	  		Thread.sleep(1000);
+	  		wait.until(ExpectedConditions.visibilityOf(menubutton));
+	  		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.id("streams_menu_icon_area")));
+	  		this.menubutton.click();
+	  		this.logoutbutton.click();
+	  		wait.until(ExpectedConditions.visibilityOf(loginusername));
+	  	}
+	  }
+	 
+	    // *** Streams Recents wait ******
+	    public void recentssearchbarwait() throws InterruptedException
+	    {    
+	  	  WebDriverWait rsearch=new WebDriverWait(driver,100);
+	  	  try {
+	  		  rsearch.until(ExpectedConditions.presenceOfElementLocated(By.id("search_recents")));
+	  		  rsearch.until(ExpectedConditions.visibilityOf(contacts_tabbutton)).click();
+	  		rsearch.until(ExpectedConditions.visibilityOf(searchbar_contcatstab));
+	  	} catch (Exception e) 
+	  	  {          driver.navigate().refresh();
+	  				  rsearch.until(ExpectedConditions.presenceOfElementLocated(By.id("search_recents")));
+	  				  rsearch.until(ExpectedConditions.visibilityOf(contacts_tabbutton)).click();
+	  				rsearch.until(ExpectedConditions.visibilityOf(searchbar_contcatstab));
+	  				 Thread.sleep(3000);	
+	  				 Logs.error("unable to locate Search bar in recents due to :"+e.getMessage());
+	  		}	
+	  	}  
+
+	    public void contacts_status(String sent_username) throws Exception
+	    {
+	  	  WebDriverWait csearch=new WebDriverWait(driver,60);
+	  	  try {
+	  		csearch.until(ExpectedConditions.visibilityOf(searchbar_contcatstab));
+	  		  this.searchbar_contcatstab.clear();
+	  		  this.searchbar_contcatstab.sendKeys(sent_username);
+	  		  String status=csearch.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='status_b4fa6aa68ad111e6b48f001e58a7db4a_"+sent_username+"']"))).getText();
+	  			if (status.contains("On Desktop")) 
+	  			{
+	  				Logs.info("===== User status :====   "+status);
+	  			} else 
+	  			{
+	  				this.statusbar.click();
+	  				this.ondesktop.click();
+	  			  	// Thread.sleep(3000);
+	  			  //	Assert.assertEquals("On Desktop",statusbardesktop.getText());//validation from status bar
+	  			  csearch.until(ExpectedConditions.textToBe(By.xpath("//div[@id='status_b4fa6aa68ad111e6b48f001e58a7db4a_"+sent_username+"']"), "On Desktop"));
+	  			  System.out.println("user status is on desktop taken from new method");
+	  			  	 String status2=csearch.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='status_b4fa6aa68ad111e6b48f001e58a7db4a_"+sent_username+"']"))).getText();
+	  				  Assert.assertEquals("On Desktop",status2);
+	  				  Logs.info("===== User status taken in else block:====   "+status2);
+	  			}
+	  	} catch (Exception e) {
+	  		Logs.error("unable to get user name for status in try block :"+e.getMessage());
+	  	}
+	  	  
+	    }  
+
+	    public void current_user_login_logout_status(String username,String password) throws Exception
+	    {
+	    	if (isElementpresent(driver, By.id("spaneltabanc_1"))) {
+	    		Logs.info("currently user is logged in then perfroming logout and login other user");
+	    		this.logout();
+				this.username_password_Login(username, password);
+				this.recentssearchbarwait();
+				this.contacts_status(username);
+				Logs.info("After logouting user hence login new user logged in successfully");
+			} else if(isElementpresent(driver, By.id("xusername")))
+			{
+				this.username_password_Login(username, password);
+				this.recentssearchbarwait();
+				this.contacts_status(username);
+			}
+	    }
+	    
+	   public void Stream_detail_panel_open_middlechat()
+	   {
+	  	 WebDriverWait detailpanel=new WebDriverWait(driver, 20);
+	  	 detailpanel.until(ExpectedConditions.visibilityOf(streamdetailedpanel_middlechat));
+	  	 String panelposition=this.streamdetailedpanel_middlechat.getAttribute("class");
+	  	 if (panelposition.contains("streamDetails activeStatus")) {
+	  		 Logs.info("stream detail panel is opened and class attribute is:"+panelposition);
+	  		
+	  	} else if(panelposition.contains("streamDetails")) 
+	  	{    
+	        Logs.info("Stream detail panel is not opened hence opening and class attribute is:"+panelposition);
+	        this.streamdetailedpanel_middlechat.click(); 
+	        detailpanel.until(ExpectedConditions.attributeContains(streamdetailedpanel_middlechat, "class", "streamDetails activeStatus"));
+	        detailpanel.until(ExpectedConditions.visibilityOf(Pinneditemsbar_rightsidepanel));
+	  	}
+	       String pineditemsmode=detailpanel.until(ExpectedConditions.visibilityOf(pinneditemsbar)).getAttribute("title");
+	       System.out.println("attribute is :"+pineditemsmode);
+	       if (pineditemsmode.contains("Click here to expand")) {
+	  		Logs.info("pinned items is in collapse mode then expanding");
+	  		detailpanel.until(ExpectedConditions.visibilityOf(pinneditemsbar)).click();
+	  		detailpanel.until(ExpectedConditions.attributeToBe(pinneditemsbar, "title", "Click here to collapse"));
+	  	} else if(pineditemsmode.contains("Click here to collapse")) {
+	       Logs.info("pinned items are is in expand mode");
+	  	}
+	   }
+	   
+	  public void pinneditems_complete_loading_wait()
+	  {
+	  	try {
+	  		WebDriverWait pinneditemsloading=new WebDriverWait(driver, 10);
+	  		//String pincount=pinneditemsloading.until(ExpectedConditions.visibilityOf(pincount_rightsidepanel)).getText();
+	  		//int size=pincount.length();
+	  		//System.out.println("no.of pinned items taken is :"+size);
+	  		List<WebElement> pinnesitems=driver.findElements(By.xpath("//div[@id='pin_items']/div"));
+	  		int pinnedcount=pinnesitems.size();
+	  		System.out.println("No.of pinned items are from list:"+pinnedcount);
+	  		if (pinnedcount>0) {
+	  			
+	  			for (int i = 1; i <=pinnedcount; i++) 
+	  			{
+	  				pinneditemsloading.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("(//div[@id='pin_items']/div)["+i+"]"))));
+	  				if(i==pinnedcount){
+	  				Logs.info("Last pinned itmem is identified:"+i);
+	  				}
+	  			}
+	  		} 
+	  		else 
+	  		{
+	  		 Logs.info("No.of pinned items are empty");
+	  		}
+	  	} catch (Exception e) {
+	  		Logs.info("Unable to locate elemet xpath is :"+e);
+	  	}
+	  }
+	   
+	   
+	  public void buddyclick(String buddyclick_username,String loggedinuserstatus)
+	  {
+	    WebDriverWait buddy_clcik=new WebDriverWait(driver, 30);
+
+	    buddy_clcik.until(ExpectedConditions.visibilityOf(searchbar_contcatstab)).clear();
+	    buddy_clcik.until(ExpectedConditions.visibilityOf(searchbar_contcatstab)).sendKeys(buddyclick_username);
+	    buddy_clcik.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[@id='status_b4fa6aa68ad111e6b48f001e58a7db4a_"+buddyclick_username+"']")))).click();
+	    try {//isElementpresent(driver,By.xpath("//div[@id='tourRightStreamDetails']/div"))---placed in if 
+	  	/*  WebDriverWait toruent=new WebDriverWait(driver, 5);
+	  	String atribute=toruent.until(ExpectedConditions.visibilityOf(driver.findElement(By.id("tourRightStreamDetails")))).getAttribute("style");
+	  	if (atribute.equals("")) {
+	  		System.out.println("Streams detail panel is opened ");
+	  		toruent.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//*[@id='tourRightStreamDetails']/div/div[3]/button")))).click();
+	  	} else {
+	        System.out.println("------------- Streams detail panel is not opened -------------");
+	        toruent.until(ExpectedConditions.visibilityOf(typemessagefield));
+	  	}  */
+	  	
+	  	if(isElementpresent(driver,By.id("tourRightStreamDetails")))
+	  	  {
+	  		  driver.findElement(By.xpath("//a[@id='rightCheckBoxDntShw']")).click();
+	  		  if (driver.findElement(By.xpath("//a[@id='rightCheckBoxDntShw']")).isSelected()) {
+	  			Logs.info("Clickd on checbok at torreent pop up window");
+	  		} else 
+	  		{
+	  			driver.findElement(By.xpath("//a[@id='rightCheckBoxDntShw']")).click();
+	  		}
+	  		  buddy_clcik.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[@id='tourRightStreamDetails']/div/div[3]/button")))).click();
+	  	  }
+	  	  else if (isElementpresent(driver, By.xpath("//textarea[@rows='1']"))) {
+	  		
+	  	}
+	  } catch (Exception e) {
+	  	try {
+	  		driver.navigate().refresh();
+	  		  this.recentssearchbarwait();
+	  		  this.contacts_status(loggedinuserstatus);
+	  		  buddy_clcik.until(ExpectedConditions.visibilityOf(searchbar_contcatstab)).clear();
+	  		  buddy_clcik.until(ExpectedConditions.visibilityOf(searchbar_contcatstab)).sendKeys(buddyclick_username);
+	  		  buddy_clcik.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[@id='status_b4fa6aa68ad111e6b48f001e58a7db4a_"+buddyclick_username+"']")))).click();
+	  	} catch (Exception e2) {
+	  		Logs.error("unable to open respective user bddy("+buddyclick_username+") due to :"+e2);
+	  	}
+	  }
+	    this.Stream_detail_panel_open_middlechat();
+	    this.pinneditems_complete_loading_wait();
+	    buddy_clcik.until(ExpectedConditions.visibilityOf(typemessagefield));
+	  Logs.info("======== Opened budddy propery respective usre buddy name is :"+buddyclick_username+"========");
+	    
+	  }
+	    
+	  private boolean isElementpresent(WebDriver driver, By by) {
+	  	driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+	  try {
+	  		driver.findElement(by);
+	  		return true;
+	  	} catch (NoSuchElementException e) {
+	  		return false;
+	  	}
+	  	
+	  }
+
+	  public void sentmessage(String sentmessage)
+	  {
+	  	 WebDriverWait sentmessagefield=new WebDriverWait(driver, 30);
+	  	 sentmessagefield.until(ExpectedConditions.visibilityOf(typemessagefield));
+	  	 this.typemessagefield.sendKeys(sentmessage);
+	  	 sentmessagefield.until(ExpectedConditions.visibilityOf(messagesentclickbuton)).click();
+	  }
+
+	  public void messageuuid(String message)
+	  {
+	  	WebDriverWait messagebar=new WebDriverWait(driver, 30);
+	  	 WebElement message_bar=driver.findElement(By.xpath("//div[@msg='"+message+"']"));
+	  	 messagebar.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[@msg='"+message+"']"))));
+	  	 messagebar.until(ExpectedConditions.visibilityOf(message_bar));
+	  	 String getuid=message_bar.getAttribute("uuid");
+	  	 messageuuid=getuid;
+	  	 System.out.println("================ Message UUID id :"+messageuuid+" ===============");
+	  }
+
+	  public void like(String UUID,String likedusername_you)
+	  {
+	  	  WebDriverWait messagebar=new WebDriverWait(driver, 30);
+	  	 System.out.println("taken uid from sent message for like is :"+UUID);
+	  	try {
+			Actions like=new Actions(driver);
+			WebElement likaction=driver.findElement(By.id("likemsg_"+UUID+""));
+			messagebar.until(ExpectedConditions.visibilityOf(likaction));
+			String text=likaction.getText();
+			Logs.info("taken text from likes is:"+text);
+			if (text.equals("Like")) {
+				like.moveToElement(likaction).click().build().perform();
+			}
+			
+			// messagebar.until(ExpectedConditions.visibilityOf(driver.findElement(By.id("likemsg_"+UUID+"")))).click();
+			   String likecount=messagebar.until(ExpectedConditions.visibilityOf(driver.findElement(By.id("lcnt_"+UUID+"")))).getText();
+			   System.out.println("No.of likes are for respective message is:"+likecount);
+			   messagebar.until(ExpectedConditions.visibilityOf(driver.findElement(By.id("lcnt_"+UUID+"")))).click();
+			   messagebar.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[contains(@id,'"+likedusername_you+"')][@class='MemberSection ExplicitBuddyWidth MemberSectionComment']"))));
+		
+		} catch (Exception e) {
+			//messagebar.until(ExpectedConditions.visibilityOf(driver.findElement(By.id("likemsg_"+UUID+"")))).click();
+			 //  String likecount=messagebar.until(ExpectedConditions.visibilityOf(driver.findElement(By.id("lcnt_"+UUID+"")))).getText();
+			 //  System.out.println("No.of likes are for respective message is in catch b;lock:"+likecount);
+			   System.out.println("unable to perform like in try block:"+e);
+
+		}
+	  }
+	    
+	  public void comment(String commnetsent,String commentobject,String commentUUID)
+	  {
+	  	WebDriverWait comentwait=new WebDriverWait(driver, 30);
+	  	 System.out.println("taken uid from sent message for Comment is :"+commentUUID);
+	  	comentwait.until(ExpectedConditions.visibilityOf(driver.findElement(By.id("comment_"+commentUUID+"")))).click();
+	  	//WebElement commenttextarea=driver.findElement(By.xpath("//textarea[@msg='"+commentobject+"']"));////textarea[contains(@msg,'17')]
+	  	WebElement commenttextarea=driver.findElement(By.xpath("//textarea[contains(@msg,'"+commentobject+"')]"));
+	  	comentwait.until(ExpectedConditions.visibilityOf(commenttextarea)).clear();
+	  	comentwait.until(ExpectedConditions.visibilityOf(commenttextarea)).sendKeys(commnetsent);
+	  	comentwait.until(ExpectedConditions.visibilityOf(commentsentclick)).click();
+	  	String commentscount=comentwait.until(ExpectedConditions.visibilityOf(driver.findElement(By.id("ccnt_"+commentUUID+"")))).getText();
+	  	System.out.println("Comment counts is:"+commentscount);
+	  }
+
+	  public void pin(String UUID)
+	  {
+	  	Logs.info("<<<<<<<<<<<<<<<<<<< Getting UUID While pin action is :"+UUID+">>>>>>>>>>>>>>>>>>>");
+	  	new WebDriverWait(driver,30).until(ExpectedConditions.visibilityOf(driver.findElement(By.id("pinmsg_"+UUID+"")))).click();
+	  	System.out.println("-------------- PIN ACTION PERFORMED ---------------");
+	  }
+
+	  public void Reshare(String sentmessage)
+	  {
+	  	WebDriverWait reshareclick=new WebDriverWait(driver, 20);////div[contains(@msg,'"+imagename+"')]////div[@msg='"+sentmessage+"']/div[3]/a[2]
+	  	reshareclick.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[contains(@msg,'"+sentmessage+"')]/div[3]/a[2]")))).click();
+	  }
+
+	  public void usernamesent_reshare(String resahedto_username)
+	  {
+	  	WebDriverWait usernamesent=new WebDriverWait(driver, 20);
+	  	usernamesent.until(ExpectedConditions.visibilityOf(Reshareusernaemsentfield)).clear();
+	  	this.Reshareusernaemsentfield.sendKeys(resahedto_username);
+	  }
+
+	  public void Selectreshareuserbuddy(String reshareusername)
+	  {
+	  	WebDriverWait re=new WebDriverWait(driver, 20);
+	  	re.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//li[@buddyid='"+reshareusername+"']/div[2]")))).click();
+	  	re.until(ExpectedConditions.visibilityOf(rehare_click)).click();
+	  }
+	    
+	  public void Resharemessahevalidation(String message)
+	  {
+	  	 WebDriverWait messagebar=new WebDriverWait(driver, 30);
+	  	 WebElement message_bar=driver.findElement(By.xpath("//div[contains(@msg,'"+message+"')]"));
+	  	new Actions(driver).moveToElement(messagebar.until(ExpectedConditions.visibilityOf(message_bar))).build().perform();
+	  }
+	    
+	    
+	  public void middlechatuploadbutton_wait()
+	  {
+	  	new WebDriverWait(driver, 20).until(ExpectedConditions.visibilityOf(uploadbutton_chatwindow)).click();
+	  }
+	    
+	 public void middlechatpane_upload_select_requriedfiletype(WebElement Typeoffile)
+	 {
+		 new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(Typeoffile)).click();
+	 }
+	/*  Duplicate code we can use above method for every type
+	   
+	  public void Selectpictutein_upload_button()
+	  {
+	  	new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(Pictures_uploadbutton)).click();
+	  	//new Actions(driver).moveToElement(Pictures_uploadbutton).click().build().perform();
+	  }
+
+	  public void SelectAudioin_upload_button()
+	  {
+	  	new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(Audio_uploadbutton)).click();
+	  }
+
+	  public void Selectfilein_upload_button()
+	  {
+	  	new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(Attachfile_uploadbutton)).click();
+	  }
+*/
+	 public void selectfile_uploadpopupwindow_for_rename(int i)
+	 {
+		 new WebDriverWait(driver, 7).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("(//p[@id='upimg_container']/div/img[@class='orientation-2'])["+i+"]")))).click();
+	 }
+	 
+	  public void Rename_uploadfilename_popup(String sentrename_whileuploadingfile)
+	  {  
+	  	WebDriverWait uploadwindowrename_startupload=new WebDriverWait(driver, 10);
+	  	uploadwindowrename_startupload.until(ExpectedConditions.visibilityOf(Renamefile_Whileuploading)).clear();
+	  	uploadwindowrename_startupload.until(ExpectedConditions.visibilityOf(Renamefile_Whileuploading)).sendKeys(sentrename_whileuploadingfile);
+	     Logs.info("Renamed perfrom successfully and filename sent is:"+sentrename_whileuploadingfile);
+	  }
+	 public void click_upload_ucc()
+	 {
+		 new WebDriverWait(driver, 7).until(ExpectedConditions.visibilityOf(uploadbutton_uploadpopup_window)).click();
+		 Logs.info("Uploading started clicked on upload button");
+	 }
+	  
+	  public static String middlechatuploadingfilename;
+	  public  void  uploading_file_name_middelchat_window()
+	  {   Logs.info("file name taken started");
+	  
+	    WebDriverWait file=new WebDriverWait(driver, 20);
+	    file.until(ExpectedConditions.attributeContains(By.xpath("//div[@class='uploadBarMain']"), "style", ""));
+	    file.until(ExpectedConditions.visibilityOf(uploadingfilename));
+	    System.out.println("file name is taken");
+	  	String filename=uploadingfilename.getText();
+	  	String trimminguploadingtext=filename.replace("Uploading.. ","");
+	  	System.out.println("inial value is :"+filename);
+	  	middlechatuploadingfilename=trimminguploadingtext;
+	  	System.out.println("uploading file name is "+middlechatuploadingfilename);
+	  	new WebDriverWait(driver, 100).until(ExpectedConditions.attributeContains(By.xpath("//div[@class='uploadBarMain']"), "style", "display: none;"));
+	  	Logs.info("attachment uploaded successfully in middle chat window");
+	  }
+	  public void upload_imagesucess(String uploadingfilename){
+	  	new WebDriverWait(driver,30).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[@class='filenameInfo']/span[@title='"+uploadingfilename+"']"))));
+	  }
+
+	  public  void select_curect_image(String imagename)
+	  {
+	  	WebDriverWait attachment=new WebDriverWait(driver, 30);
+	  	 String takeuid=attachment.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[contains(@msg,'"+imagename+"')]")))).getAttribute("uuid");
+	  	attachmentuuid=takeuid;
+	  	Logs.info("!!!!!!!!!!!!!!!!!!!!!!!!!! Attachment UUID id :"+attachmentuuid+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	  }
+	    
+	public void Plisicon_Click_Recents()
+	{
+		new WebDriverWait(driver,15).until(ExpectedConditions.elementToBeClickable(plussbutton_recents)).click();
+	}
+	public void Click_Createteam()
+	{
+		new WebDriverWait(driver,10).until(ExpectedConditions.visibilityOf(createtam_button)).click();
+	}
+	
+	public void TeamCreation_page_loading_wait()
+	{
+		WebDriverWait creationpage_completeloading_wait=new WebDriverWait(driver, 30);
+		creationpage_completeloading_wait.until(ExpectedConditions.visibilityOf(enterteamame));
+		creationpage_completeloading_wait.until(ExpectedConditions.visibilityOf(findbutton_teamcreationpage));
+		creationpage_completeloading_wait.until(ExpectedConditions.visibilityOf(createteam_click));
+	}
+	
+  public void sent_team_name(String Teamname)
+  {
+	  WebDriverWait teamneamewait=new WebDriverWait(driver, 7);
+	  teamneamewait.until(ExpectedConditions.visibilityOf(enterteamame));
+	  this.enterteamame.clear();
+	  this.enterteamame.sendKeys(Teamname);
+  }
+  
+  public void Click_team_type_radio_button(WebElement teamtyperadiobutton)
+  {
+	  WebDriverWait radiobutton=new WebDriverWait(driver, 7);
+	  radiobutton.until(ExpectedConditions.visibilityOf(teamtyperadiobutton));
+	  if (teamtyperadiobutton.isSelected()) 
+	  {
+        Logs.info("Team  type radio button is selected properly");		
+	} else 
+	{
+		teamtyperadiobutton.click();  
+		Logs.info("Requried team type is not selected hence click on radio button");
+	}
+  }
+  
+  public void addcontacts_search(String addusername)
+  {
+	  WebDriverWait adduser=new WebDriverWait(driver, 7);
+	  adduser.until(ExpectedConditions.visibilityOf(sentsuername_teamcreation_page)).clear();
+	  this.sentsuername_teamcreation_page.sendKeys(addusername);
+	  WebElement selectusername=driver.findElement(By.id("contpp_chkbox_"+addusername+""));
+	  adduser.until(ExpectedConditions.visibilityOf(selectusername)).click();
+	  if (selectusername.isSelected()) 
+	  {
+		 Logs.info("Requried added usr to team is checked ");
+	} else {
+		selectusername.click();
+		Logs.info("requried added user is not selected hence secting");
+	}
+  }
+	public void Addcontact_validation_createpage(String addusername)
+	{
+		new WebDriverWait(driver,10).until(ExpectedConditions.visibilityOf(driver.findElement(By.id("conppbuddy_"+addusername+""))));
+	}
+}
