@@ -18,7 +18,7 @@
 				<include name="ULM_Hide_Filters" />
 				<include name="ULM_Show_Filters" />
 				<include name="CallmonitoringForm" />
-				<!--<include name="Loggedin_Logout_Agentes" /> -->
+				<include name="Loggedin_Logout_Agentes" />
 				<!-- <include name="IndepedentULM_StreamsBrandings" /> -->
 				<!-- <include name="IndepedentULM_InpacketBrandings" /> -->
 				<!-- <include name="IndependentULM_KonnectBranding" /> -->
