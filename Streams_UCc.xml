@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Sanity">
+ <parameter name="Network" value="beta"/>   <!-- Beta peramaters -->
+<!-- <parameter name="Network" value="dce"/> -->
+<!-- <parameter name="Network" value="dcw"/> -->
+<parameter name="browser" value="GC"/>
+<parameter name="enable" value="true"/>
+<listeners>
+<listener class-name="output_results.MyTest_Listner"></listener>
+</listeners>
+  <test name="Stresams UCC">
+    <classes>
+       <class name="main_running_script_streams_ucc.StreamsUCC_Main_Script"/>
+        <methods>
+<!--     	<include name="login_streams" /> -->
+	<include name="ULmLogin" />
+	<include name="ULM_Queues"/>
+	<include name="ULM_Hide_Filters" />
+	<include name="ULM_Show_Filters" />
+	<include name="CallmonitoringForm" />
+	<include name="Loggedin_Logout_Agentes" />
+<!-- 			<include name="IndepedentULM_StreamsBrandings" /> -->
+<!--     		<include name="IndepedentULM_InpacketBrandings" /> -->
+<!--     		<include name="IndependentULM_KonnectBranding" /> -->
+<!--     		<include name="IndependentULM_QuorumTechBranding" /> -->
+<!--         <include name="Message_validations" /> -->
+<!--           <include name="Photo_Attachment_validation" /> -->
+<!--        	<include name="Textfile_Validations" /> -->
+<!--         <include name="Audiofile_validations" /> -->
+<!--         <include name="Collegeof_photos_validatoions" />  -->
+<!--         <include name="team_Creation" /> -->
+<!--         <exclude name="OwnerActions" /> -->
+<!--         <exclude name="ReceiverActions" /> -->
+<!--         <exclude name="StatusValidation" />  -->
+         </methods> 
+    </classes>
+  </test>
+  </suite>
