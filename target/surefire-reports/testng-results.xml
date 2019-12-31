@@ -1,11 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" ignored="0" total="0" passed="0">
+<testng-results skipped="0" failed="0" ignored="15" total="20" passed="5">
   <reporter-output>
   </reporter-output>
-  <suite name="test_data.Test" duration-ms="7" started-at="2019-12-31T10:19:56Z" finished-at="2019-12-31T10:19:56Z">
+  <suite name="Sanity" duration-ms="275553" started-at="2019-12-31T12:16:17Z" finished-at="2019-12-31T12:20:52Z">
     <groups>
     </groups>
-    <test name="Command line test" duration-ms="7" started-at="2019-12-31T10:19:56Z" finished-at="2019-12-31T10:19:56Z">
-    </test> <!-- Command line test -->
-  </suite> <!-- test_data.Test -->
+    <test name="Stresams UCC" duration-ms="275553" started-at="2019-12-31T12:16:17Z" finished-at="2019-12-31T12:20:52Z">
+      <class name="main_running_script_streams_ucc.StreamsUCC_Main_Script">
+        <test-method status="PASS" signature="beforeSuite(java.lang.String, java.lang.String)[pri:0, instance:main_running_script_streams_ucc.StreamsUCC_Main_Script@3cda1055]" name="beforeSuite" is-config="true" duration-ms="11361" started-at="2019-12-31T17:46:05Z" finished-at="2019-12-31T17:46:17Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[beta]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[GC]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeSuite -->
+        <test-method status="PASS" signature="ULmLogin()[pri:1, instance:main_running_script_streams_ucc.StreamsUCC_Main_Script@3cda1055]" name="ULmLogin" duration-ms="48008" started-at="2019-12-31T17:46:17Z" finished-at="2019-12-31T17:47:05Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- ULmLogin -->
+        <test-method status="PASS" signature="Endtestcase(org.testng.ITestResult)[pri:0, instance:main_running_script_streams_ucc.StreamsUCC_Main_Script@3cda1055]" name="Endtestcase" is-config="true" duration-ms="4" started-at="2019-12-31T17:47:05Z" finished-at="2019-12-31T17:47:05Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=ULmLogin status=SUCCESS method=StreamsUCC_Main_Script.ULmLogin()[pri:1, instance:main_running_script_streams_ucc.StreamsUCC_Main_Script@3cda1055] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Endtestcase -->
+        <test-method status="PASS" signature="ULM_Queues()[pri:2, instance:main_running_script_streams_ucc.StreamsUCC_Main_Script@3cda1055]" name="ULM_Queues" duration-ms="56175" started-at="2019-12-31T17:47:05Z" finished-at="2019-12-31T17:48:01Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- ULM_Queues -->
+        <test-method status="PASS" signature="Endtestcase(org.testng.ITestResult)[pri:0, instance:main_running_script_streams_ucc.StreamsUCC_Main_Script@3cda1055]" name="Endtestcase" is-config="true" duration-ms="4" started-at="2019-12-31T17:48:01Z" finished-at="2019-12-31T17:48:01Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=ULM_Queues status=SUCCESS method=StreamsUCC_Main_Script.ULM_Queues()[pri:2, instance:main_running_script_streams_ucc.StreamsUCC_Main_Script@3cda1055] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Endtestcase -->
+        <test-method status="PASS" signature="ULM_Hide_Filters()[pri:3, instance:main_running_script_streams_ucc.StreamsUCC_Main_Script@3cda1055]" name="ULM_Hide_Filters" duration-ms="55568" started-at="2019-12-31T17:48:01Z" finished-at="2019-12-31T17:48:57Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- ULM_Hide_Filters -->
+        <test-method status="PASS" signature="Endtestcase(org.testng.ITestResult)[pri:0, instance:main_running_script_streams_ucc.StreamsUCC_Main_Script@3cda1055]" name="Endtestcase" is-config="true" duration-ms="3" started-at="2019-12-31T17:48:57Z" finished-at="2019-12-31T17:48:57Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=ULM_Hide_Filters status=SUCCESS method=StreamsUCC_Main_Script.ULM_Hide_Filters()[pri:3, instance:main_running_script_streams_ucc.StreamsUCC_Main_Script@3cda1055] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Endtestcase -->
+        <test-method status="PASS" signature="ULM_Show_Filters()[pri:4, instance:main_running_script_streams_ucc.StreamsUCC_Main_Script@3cda1055]" name="ULM_Show_Filters" duration-ms="57478" started-at="2019-12-31T17:48:57Z" finished-at="2019-12-31T17:49:54Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- ULM_Show_Filters -->
+        <test-method status="PASS" signature="Endtestcase(org.testng.ITestResult)[pri:0, instance:main_running_script_streams_ucc.StreamsUCC_Main_Script@3cda1055]" name="Endtestcase" is-config="true" duration-ms="4" started-at="2019-12-31T17:49:54Z" finished-at="2019-12-31T17:49:54Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=ULM_Show_Filters status=SUCCESS method=StreamsUCC_Main_Script.ULM_Show_Filters()[pri:4, instance:main_running_script_streams_ucc.StreamsUCC_Main_Script@3cda1055] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Endtestcase -->
+        <test-method status="PASS" signature="CallmonitoringForm()[pri:5, instance:main_running_script_streams_ucc.StreamsUCC_Main_Script@3cda1055]" name="CallmonitoringForm" duration-ms="57956" started-at="2019-12-31T17:49:54Z" finished-at="2019-12-31T17:50:52Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- CallmonitoringForm -->
+        <test-method status="PASS" signature="Endtestcase(org.testng.ITestResult)[pri:0, instance:main_running_script_streams_ucc.StreamsUCC_Main_Script@3cda1055]" name="Endtestcase" is-config="true" duration-ms="5" started-at="2019-12-31T17:50:52Z" finished-at="2019-12-31T17:50:52Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=CallmonitoringForm status=SUCCESS method=StreamsUCC_Main_Script.CallmonitoringForm()[pri:5, instance:main_running_script_streams_ucc.StreamsUCC_Main_Script@3cda1055] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Endtestcase -->
+        <test-method status="PASS" signature="kil()[pri:0, instance:main_running_script_streams_ucc.StreamsUCC_Main_Script@3cda1055]" name="kil" is-config="true" duration-ms="879" started-at="2019-12-31T17:50:53Z" finished-at="2019-12-31T17:50:54Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- kil -->
+      </class> <!-- main_running_script_streams_ucc.StreamsUCC_Main_Script -->
+    </test> <!-- Stresams UCC -->
+  </suite> <!-- Sanity -->
 </testng-results>
