@@ -11,7 +11,7 @@ public class OR
 {
    WebDriver driver;
   
- //***** Streams Login and Logout locators ****//
+ //***** Login and Logout locators ****//
     @FindBy(xpath="//div[@class='productLogo']/img") public WebElement streamslogo;
     @FindBy(id="xusername") protected static WebElement username;
 	@FindBy(id="password") public static WebElement password;
